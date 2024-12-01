@@ -1,0 +1,38 @@
+.transaction-history {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+    text-align: left;
+}
+
+.transaction-history thead {
+    background-color: #2E2E2E;
+   
+    color: #fff;
+   
+}
+
+.transaction-history th,
+.transaction-history td {
+    border: 1px solid #000;
+    /* Сіра рамка */
+    padding: 12px 15px;
+    /* Відступи в комірках */
+}
+
+.transaction-history tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+ 
+}
+
+.transaction-history tbody tr:nth-child(odd) {
+    background-color: #fff;
+    
+}
+
+.transaction-history tbody tr:hover {
+    background-color: #e7e3b0;
+    
+} 
