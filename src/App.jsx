@@ -1,29 +1,39 @@
-import Profile from './components/Profile/Profile.jsx';
-import FriendList from './components/FriendList/FriendList.jsx';
-import TransactionHistory from './components/TransactionHistory/TransactionHistory.jsx';
-import userData from './components/Profile/userData.json';
-import friends from './components/FriendList/friends.json';
-import transactions from './components/TransactionsHistory/transactions.json';
+import { useState, useEffect } from 'react';
+import Feedback from './components/Feedback/Feedback';
+import Options from './components/Options/Options';
+import Notification from './components/Notification/Notification';
+import Description from './components/Description/Description'; 
 
-const App = () => {
+function App() {
+  const [feedback, setFeedback] = useState(() => {
+    const storedFeedback = localStorage.getItem('feedback');
+    return storedFeedback ? JSON.parse(storedFeedback) : { good: 0, neutral: 0, bad: 0 };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('feedback', JSON.stringify(feedback));
+  }, [feedback]);
+
+  const updateFeedback = (type) => {
+    setFeedback((prevFeedback) => ({
+      ...prevFeedback,
+      [type]: prevFeedback[type] + 1,
+    }));
+  };
+
+  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+
   return (
-    <div>
-      {/* Компонент профілю */}
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
-      />
-
-      {/* Список друзів */}
-      <FriendList friends={friends} />
-
-      {/* Історія транзакцій */}
-      <TransactionHistory items={transactions} />
+    <div className="App">
+      <Description /> 
+      <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} />
+      {totalFeedback > 0 ? (
+        <Feedback feedback={feedback} />
+      ) : (
+        <Notification message="No feedback yet" />
+      )}
     </div>
   );
-};
+}
 
 export default App;
