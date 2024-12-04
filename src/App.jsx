@@ -15,17 +15,21 @@ function App() {
   }, [feedback]);
 
   const updateFeedback = (type) => {
-    setFeedback((prevFeedback) => ({
-      ...prevFeedback,
-      [type]: prevFeedback[type] + 1,
-    }));
+    if (type === 'reset') {
+      setFeedback({ good: 0, neutral: 0, bad: 0 }); // Скидаємо всі значення
+    } else {
+      setFeedback((prevFeedback) => ({
+        ...prevFeedback,
+        [type]: prevFeedback[type] + 1,
+      }));
+    }
   };
 
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
 
   return (
     <div className="App">
-      <Description /> 
+      <Description />
       <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} />
       {totalFeedback > 0 ? (
         <Feedback feedback={feedback} />
